@@ -18,7 +18,7 @@ jobs:
       matrix:
         node-version: [14.x, 16.x, 18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+      
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
@@ -26,6 +26,12 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+    - name: Install
+      working-directory: ./movie-gold-v1
+      run: npm ci
+    - name: Build
+      working-directory: ./movie-gold-v1
+      run: npm run build --if-present
+    - name: Test
+      working-directory: ./movie-gold-v1
+      run: npm test
