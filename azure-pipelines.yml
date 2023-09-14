@@ -16,6 +16,6 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm install movie-gold-v1/
-    npm run build movie-gold-v1/
+    npm install movieView/
+    npm run build movieView/
   displayName: 'npm install and build'
