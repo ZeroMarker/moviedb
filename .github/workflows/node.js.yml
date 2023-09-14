@@ -18,7 +18,7 @@ jobs:
         working-directory: movieView
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
       
     steps:
@@ -31,10 +31,10 @@ jobs:
         cache-dependency-path: '**/package-lock.json'
     - name: Install
       run: npm ci
-      working-directory: ./movie-gold-v1
+      
     - name: Build
       run: npm run build --if-present
-      working-directory: ./movie-gold-v1
+      
     - name: Test
       run: npm test
-      working-directory: ./movie-gold-v1
+      
