@@ -1,0 +1,9 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/devcontainers-contrib/features/springboot-sdkman:2": {
+      "jdkVersion": "17"
+    },
+    "ghcr.io/devcontainers/features/node:1": {}
+  }
+}
