@@ -16,6 +16,7 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm install movieView/
-    npm run build movieView/
+    npm install
+    npm run build
   displayName: 'npm install and build'
+  workingDirectory: movieView/
