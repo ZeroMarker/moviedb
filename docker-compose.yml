@@ -1,21 +1,20 @@
-version: '4.9'
+version: '3'
 services:
-    web:
-        build: ./movieView
-        ports:
-            - 3000:3000
-    api:
-        build: ./movieDB
-        ports:
-            - 3001:3001
-        environment:
-            DB_URL: mongodb://db/moviedb
-    db:
-        image: mongo:6.0
-        ports:
-            - 27017:27017
-        volumes:
-            - moviedb:/data/db
-volumes:
-    moviedb
-        
+  frontend:
+    build:
+      context: ./movieView
+    ports:
+      - "3000:3000"
+
+  backend:
+    build:
+      context: ./movieDB
+    ports:
+      - "8080:8080"
+    # depends_on:
+    #   - mongo
+    
+#   mongo:
+#     image: mongo
+#     ports:
+#       - "27017:27017"
