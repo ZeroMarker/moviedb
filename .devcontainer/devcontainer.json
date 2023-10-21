@@ -4,6 +4,7 @@
     "ghcr.io/devcontainers-contrib/features/springboot-sdkman:2": {
       "jdkVersion": "17"
     },
-    "ghcr.io/devcontainers/features/node:1": {}
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   }
 }
