@@ -14,7 +14,10 @@ services:
     # depends_on:
     #   - mongo
     
-#   mongo:
+#   db:
 #     image: mongo
 #     ports:
 #       - "27017:27017"
+#     volumes:
+#       - mongo-data:/data/db
+
