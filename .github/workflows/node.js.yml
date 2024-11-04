@@ -37,4 +37,18 @@ jobs:
       
     - name: Test
       run: npm test --passWithNoTests
+
+    - name: Zip dist
+      run: zip -r dist.zip movieView/dist/
+    - name: Copy zip to server
+      uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+      with:
+        host: ${{ secrets.VULTR_IP }}
+        user: ${{ secrets.VULTR_USER }}
+        pass: ${{ secrets.VULTR_PASSWORD }}
+        port: 22
+        scp: |
+          ./dist.zip => /home/
+        last_ssh: |
+          unzip -o /home/dist.zip -d /home/server/
       
