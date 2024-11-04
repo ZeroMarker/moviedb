@@ -39,7 +39,7 @@ jobs:
       run: npm test --passWithNoTests
 
     - name: Zip dist
-      run: zip -r dist.zip movieView/dist/
+      run: zip -r dist.zip . -i movieView/dist/
     - name: Copy zip to server
       uses: cross-the-world/ssh-scp-ssh-pipelines@latest
       with:
