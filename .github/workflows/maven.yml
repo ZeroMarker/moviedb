@@ -30,7 +30,18 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file movieDB/pom.xml
-
+    - name: Copy jar to server
+      uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+      with:
+        host: ${{ secrets.VULTR_IP }}
+        user: ${{ secrets.VULTR_USER }}
+        pass: ${{ secrets.VULTR_PASSWORD }}
+        port: 22
+        scp: |
+          movieDB/target/springboot.jar => /home/
+        last_ssh: |
+          JAR_NAME="springboot.jar"; PID=$(ps aux | grep "$JAR_NAME" | grep -v grep | awk '{print $2}'); if [ -n "$PID" ]; then kill -9 $PID && echo "进程 $PID 已被杀死"; else echo "未找到与 $JAR_NAME 相关的进程"; fi
+          /usr/bin/java -jar -Xmx1024M -Xms256M /home/springboot.jar &
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     # - name: Update dependency graph
     # uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
