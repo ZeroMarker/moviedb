@@ -9,7 +9,7 @@ RUN pnpm config set store-dir /pnpm-store
 
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN pnpm install
 COPY . .
 RUN pnpm run build
 
