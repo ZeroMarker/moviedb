@@ -4,8 +4,36 @@
 #       database: ${env.MONGO_DATABASE}
 #       uri: mongodb+srv://${env.MONGO_USER}:${env.MONGO_PASSWORD}@${env.MONGO_CLUSTER}
 
+#spring:
+#  data:
+#    mongodb:
+#      database: movie_db
+#      uri: mongodb+srv://mark:Passw0rd@cluster0.iwja9er.mongodb.net/
+
 spring:
+  application:
+    name: movie-app-backend
+  config:
+    activate:
+      on-profile: dev
+
+  # MongoDB 配置 (明文)
   data:
     mongodb:
-      database: moviedb
-      uri: mongodb+srv://mark:Passw0rd@cluster0.iwja9er.mongodb.net/
+      host: localhost
+      port: 27017
+      database: movie_db
+      username: root
+      password: rootpassword  # 明文密码，仅用于开发
+      authentication-database: admin
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: DEBUG
+    com.example: TRACE

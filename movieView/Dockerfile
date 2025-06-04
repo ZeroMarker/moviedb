@@ -1,23 +1,13 @@
-# Use an official Node.js runtime as a parent image
-FROM node:18
-
-# Set the working directory
+# 构建阶段
+FROM node:19 AS build
 WORKDIR /app
-
-# Copy package.json and package-lock.json to the container
 COPY package*.json ./
-
-# Install the project dependencies
 RUN npm install
-
-# Copy all the source files to the container
 COPY . .
-
-# Build the React app
 RUN npm run build
 
-# Expose the app's port
-EXPOSE 3000
-
-# Define the command to run your app
-CMD ["npm", "start"]
+# 运行阶段
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

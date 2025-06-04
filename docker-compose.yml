@@ -1,23 +1,40 @@
-version: '3'
+version: '3.8'
+
 services:
-  frontend:
-    build:
-      context: ./movieView
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: movie_db
     ports:
-      - "3000:3000"
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d
 
   backend:
-    build:
-      context: ./movieDB
+    build: ./movieDB
+    container_name: backend
     ports:
       - "8080:8080"
-    # depends_on:
-    #   - mongo
-    
-#   db:
-#     image: mongo
-#     ports:
-#       - "27017:27017"
-#     volumes:
-#       - mongo-data:/data/db
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://root:rootpassword@mongodb:27017/movie_db?authSource=admin
+    depends_on:
+      - mongodb
+    restart: on-failure
 
+  frontend:
+    build: ./movieView
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: http://localhost:8080/api
+    depends_on:
+      - backend
+    restart: always
+
+volumes:
+  mongodb_data:

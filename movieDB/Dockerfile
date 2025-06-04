@@ -1,26 +1,19 @@
-# Stage 1: Build the Spring Boot application JAR
-FROM maven:3-sapmachine-17 AS builder
-
+# 构建阶段 - 使用 JDK 17
+FROM maven:3.8.6-openjdk-17 AS build
 WORKDIR /app
-
-# Copy the project's POM file and download the dependencies
 COPY pom.xml .
-RUN mvn dependency:go-offline -B
+# 下载依赖 (利用Docker缓存层)
+RUN mvn dependency:go-offline
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Copy the source code and build the application
-COPY src src
-RUN mvn package -DskipTests
-
-# Stage 2: Create the final Docker image with the JAR
-FROM openjdk:19
-
+# 运行阶段 - 使用精简版 JRE 17
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-
-# Copy the JAR file from the builder stage
-COPY --from=builder /app/target/movieDB.jar ./movieDB.jar
-
-# Expose the port that your Spring Boot application listens on
+# 添加时区支持
+RUN apk add --no-cache tzdata
+ENV TZ=Asia/Shanghai
+# 复制构建结果
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# Define the command to run your Spring Boot application
-CMD ["java", "-jar", "movieDB.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
