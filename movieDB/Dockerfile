@@ -1,5 +1,5 @@
 # 构建阶段 - 使用 JDK 17
-FROM maven:3.8.6-openjdk-17 AS build
+FROM maven:3.8.3-openjdk-17 AS build
 WORKDIR /app
 COPY pom.xml .
 # 下载依赖 (利用Docker缓存层)
