@@ -1,5 +1,5 @@
 # 构建阶段
-FROM node:19 AS build
+FROM node:22 AS build
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
