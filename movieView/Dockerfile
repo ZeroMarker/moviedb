@@ -15,6 +15,13 @@ RUN pnpm run build
 
 # 运行阶段
 FROM nginx:alpine
+# 暴露端口
+EXPOSE 3000
+# 导入构建后的工程
 COPY --from=build /app/build /usr/share/nginx/html
-EXPOSE 80
+
+# 使用自定义 Nginx 配置
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+
 CMD ["nginx", "-g", "daemon off;"]
