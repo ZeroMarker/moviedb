@@ -2,12 +2,12 @@
 set -e
 
 echo "Waiting for MongoDB to start..."
-until mongosh --host mongodb --eval "db.adminCommand('ping')" &> /dev/null; do
+until mongosh --host localhost --eval "db.adminCommand('ping')" &> /dev/null; do
     sleep 1
 done
 
 echo "Importing data..."
-mongoimport --host mongodb \
+mongoimport --host localhost \
   --username root --password rootpassword \
   --authenticationDatabase admin \
   --db movie_db \
