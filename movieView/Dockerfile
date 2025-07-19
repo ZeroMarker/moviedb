@@ -2,7 +2,7 @@
 FROM node:22 AS build
 
 # 安装 pnpm 并设置存储路径
-RUN corepack enable && corepack prepare pnpm@9.0.6 --activate
+RUN corepack enable && corepack prepare pnpm@10.13.1 --activate
 ENV PNPM_HOME=/pnpm
 ENV PATH="$PNPM_HOME:$PATH"
 RUN pnpm config set store-dir /pnpm-store
