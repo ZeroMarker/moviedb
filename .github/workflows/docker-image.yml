@@ -21,17 +21,22 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: docker compose up
       run: docker compose up -d --build
+    - name: show docker image
+      run: docker 
     - name: Push frontend image
       run: |
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/moviedb-frontend:latest
+        docker image tag moviedb-frontend:latest ${{ secrets.DOCKERHUB_USERNAME }}/moviedb-frontend:latest
+        docker image push --all-tags ${{ secrets.DOCKERHUB_USERNAME }}/moviedb-frontend:latest
         
     # 推送后端镜像
     - name: Push backend image
       run: |
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/moviedb-backend:latest
+        docker image tag moviedb-backend:latest ${{ secrets.DOCKERHUB_USERNAME }}/moviedb-backend:latest
+        docker image push --all-tags ${{ secrets.DOCKERHUB_USERNAME }}/moviedb-backend:latest
         
     # 推送MongoDB镜像
     - name: Push MongoDB image
       run: |
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/mongo:latest
+        docker image tag mongo:latest ${{ secrets.DOCKERHUB_USERNAME }}/mongo:latest
+        docker image push --all-tags ${{ secrets.DOCKERHUB_USERNAME }}/mongo:latest
       
