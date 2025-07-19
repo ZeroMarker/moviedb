@@ -1,17 +1,21 @@
 # 构建阶段
 FROM node:22 AS build
 
-# 安装 pnpm 并设置存储路径
-RUN corepack enable && corepack prepare pnpm@10.13.1 --activate
-ENV PNPM_HOME=/pnpm
-ENV PATH="$PNPM_HOME:$PATH"
-RUN pnpm config set store-dir /pnpm-store
-
+# 设置工作目录
 WORKDIR /app
-COPY package*.json ./
-RUN pnpm install
+
+# 复制 package.json 和 lock 文件
+COPY package.json package-lock.json ./
+
+# 使用 npm 安装依赖
+RUN npm ci --only=production
+
+# 复制应用源码
 COPY . .
-RUN pnpm run build
+
+# 构建应用
+RUN npm run build
+
 
 # 运行阶段
 FROM nginx:alpine
