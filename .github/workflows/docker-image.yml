@@ -21,8 +21,6 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: docker compose up
       run: docker compose up -d --build
-    - name: show docker image
-      run: docker 
     - name: Push frontend image
       run: |
         docker image tag moviedb-frontend:latest ${{ secrets.DOCKERHUB_USERNAME }}/moviedb-frontend:latest
